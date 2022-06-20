@@ -8,7 +8,7 @@ const usuarioSchema = new Schema({
 	nickname: String,
 	password: String,
 	email: String,
-	foto: String,
+	imagen: String,
 })
 
 usuarioSchema.set('toJSON', {

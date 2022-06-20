@@ -1,3 +1,5 @@
+// TODO: NICO
+
 require('dotenv').config()
 require('./conectarDB')
 
@@ -16,16 +18,17 @@ app.use(express.json())
 // Http root
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, './templates/root.html'))
+	res.sendFile(path.join(__dirname, './public/templates/root.html'))
 })
 
 app.get('/api', (req, res) => {
-	res.sendFile(path.join(__dirname, './templates/main.html'))
+	res.sendFile(path.join(__dirname, './public/templates/main.html'))
 })
 
 //
 // Http methods
 
+//TODO: FRANCIS
 app.get('/api/productos', (req, res) => {
 	Producto.find({}).then((productos) => {
 		res.json(productos)
@@ -62,6 +65,8 @@ app.get('/api/usuarios/:id', (req, res, next) => {
 		})
 })
 
+// TODO: SILVIO
+
 app.post('/api/productos', (req, res, next) => {
 	const producto = req.body
 
@@ -71,27 +76,57 @@ app.post('/api/productos', (req, res, next) => {
 
 	const newProducto = new Producto({
 		descripcion: producto.descripcion,
+		categoria: producto.categoria,
 		precio: producto.precio,
-		stock: producto.stock,
 		descuento: producto.descuento,
+		stock: producto.stock,
 		foto: producto.foto,
 	})
 
-	newProducto.save().then((savedProducto) => {
-		res.json(savedProducto)
-	})
+	newProducto
+		.save()
+		.then((savedProducto) => {
+			res.json(savedProducto)
+		})
+		.catch((error) => {
+			next(error)
+		})
 })
 
-//TODO: FALTA POST USUARIOS
+app.post('/api/usuarios', (req, res, next) => {
+	const usuario = req.body
+
+	if (!usuario) {
+		return res.status(400).json({ error: 'No hay contenido en usuario' })
+	}
+
+	const newUsuario = new Usuario({
+		apellido: usuario.apellido,
+		nombre: usuario.nombre,
+		nickname: usuario.nickname,
+		password: usuario.password,
+		email: usuario.email,
+		imagen: usuario.imagen,
+	})
+
+	newUsuario
+		.save()
+		.then((savedUsuario) => {
+			res.json(savedUsuario)
+		})
+		.catch((error) => {
+			next(error)
+		})
+})
+
+// TODO: POLLO
 
 app.put('/api/productos/:id', (req, res, next) => {
 	const { id } = req.params
 
 	const producto = req.body
 
-	if (!producto) {
-		return res.status(400).json({ error: 'No hay contenido en producto' })
-	}
+	if (!producto) return res.status(400).json({ error: 'No hay contenido en producto' })
 
 	const newProductoData = {
 		descripcion: producto.descripcion,
@@ -110,7 +145,32 @@ app.put('/api/productos/:id', (req, res, next) => {
 		})
 })
 
-//TODO: FALTA PUT USUARIOS
+app.put('/api/usuarios/:id', (req, res, next) => {
+	const { id } = req.params
+
+	const usuario = req.body
+
+	if (!usuario) {
+		return res.status(400).json({ error: 'No hay contenido en usuario' })
+	}
+
+	const newUsuarioData = {
+		apellido: usuario.apellido,
+		nombre: usuario.nombre,
+		nickname: usuario.nickname,
+		password: usuario.password,
+		email: usuario.email,
+		imagen: usuario.imagen,
+	}
+
+	Usuario.findByIdAndUpdate(id, newUsuarioData)
+		.then(() => {
+			res.status(200).end()
+		})
+		.catch(() => {
+			next(error)
+		})
+})
 
 app.delete('/api/productos/:id', (req, res, next) => {
 	const { id } = req.params
@@ -124,8 +184,21 @@ app.delete('/api/productos/:id', (req, res, next) => {
 		})
 })
 
+app.delete('/api/usuarios/:id', (req, res, next) => {
+	const { id } = req.params
+
+	Usuario.findByIdAndDelete(id)
+		.then(() => {
+			res.status(200).end()
+		})
+		.catch((error) => {
+			next(error)
+		})
+})
+
 //
 // Manejo de error
+// TODO: NICO
 
 app.use((error, req, res, next) => {
 	console.log(error.name)
@@ -136,8 +209,6 @@ app.use((error, req, res, next) => {
 		res.status(500).end()
 	}
 })
-
-//TODO: FALTA DELETE USUARIOS
 
 //
 // Apertura

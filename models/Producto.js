@@ -4,10 +4,11 @@ const { Schema, model } = require('mongoose')
 const productoSchema = new Schema({
 	id: String,
 	descripcion: String,
+	categoria: String,
 	precio: Number,
+	descuento: Boolean,
 	stock: Number,
 	foto: String,
-	descuento: Boolean,
 })
 
 productoSchema.set('toJSON', {
