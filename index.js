@@ -4,6 +4,8 @@ require('./conectarDB')
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const path = require('path')
+
 const Producto = require('./models/Producto')
 const Usuario = require('./models/Usuario')
 
@@ -14,22 +16,11 @@ app.use(express.json())
 // Http root
 
 app.get('/', (req, res) => {
-	res.send(`
-    <body style="font-family:Open Sans,sans-serif">
-      <h1>OnlyGamers! API</h1>
-      <p>Ir a <a href="http://localhost:3018/api">/api</a> para descripcion</p>  
-    </body>
-    `)
+	res.sendFile(path.join(__dirname, './templates/root.html'))
 })
 
 app.get('/api', (req, res) => {
-	res.send(`
-  <body style="font-family:Open Sans,sans-serif">
-    <h1>OnlyGamers! API</h1>
-    <p><a href="http://localhost:3018/api/productos">/productos</a></p>  
-    <p><a href="http://localhost:3018/api/usuarios">/usuarios</a></p>  
-  </body>
-  `)
+	res.sendFile(path.join(__dirname, './templates/main.html'))
 })
 
 //
