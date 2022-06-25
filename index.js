@@ -204,7 +204,7 @@ app.use((error, req, res, next) => {
 
 //
 // Apertura
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3018
 app.listen(PORT, () => {
-	console.log(`Server iniciado en puerto ${PORT}`)
+	console.log(`Server iniciado en puerto: ${PORT}`)
 })
