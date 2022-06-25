@@ -26,14 +26,14 @@ app.get('/api', (req, res) => {
 //
 // Http methods
 
-app.get('/api/productos', (req, res) => {
+app.get('https://api-onlygamers.herokuapp.com/api/productos', (req, res) => {
 	Producto.find({}).then((productos) => {
 		res.json(productos)
 		console.log(productos)
 	})
 })
 
-app.get('/api/usuarios', (req, res) => {
+app.get('https://api-onlygamers.herokuapp.com/api/usuarios', (req, res) => {
 	Usuario.find({}).then((usuarios) => {
 		res.json(usuarios)
 	})
