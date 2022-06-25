@@ -29,6 +29,7 @@ app.get('/api', (req, res) => {
 app.get('/api/productos', (req, res) => {
 	Producto.find({}).then((productos) => {
 		res.json(productos)
+		console.log(productos)
 	})
 })
 
@@ -204,7 +205,7 @@ app.use((error, req, res, next) => {
 
 //
 // Apertura
-const PORT = process.env.PORT || 3018
+const PORT = process.env.PORT
 app.listen(PORT, () => {
 	console.log(`Server iniciado en puerto: ${PORT}`)
 })
