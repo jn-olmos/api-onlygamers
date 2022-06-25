@@ -1,5 +1,3 @@
-// TODO: NICO
-
 require('dotenv').config()
 require('./conectarDB')
 
@@ -28,7 +26,6 @@ app.get('/api', (req, res) => {
 //
 // Http methods
 
-//TODO: FRANCIS
 app.get('/api/productos', (req, res) => {
 	Producto.find({}).then((productos) => {
 		res.json(productos)
@@ -64,8 +61,6 @@ app.get('/api/usuarios/:id', (req, res, next) => {
 			next(error)
 		})
 })
-
-// TODO: SILVIO
 
 app.post('/api/productos', (req, res, next) => {
 	const producto = req.body
@@ -118,8 +113,6 @@ app.post('/api/usuarios', (req, res, next) => {
 			next(error)
 		})
 })
-
-// TODO: POLLO
 
 app.put('/api/productos/:id', (req, res, next) => {
 	const { id } = req.params
@@ -198,7 +191,6 @@ app.delete('/api/usuarios/:id', (req, res, next) => {
 
 //
 // Manejo de error
-// TODO: NICO
 
 app.use((error, req, res, next) => {
 	console.log(error.name)
@@ -216,5 +208,3 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
 	console.log(`Server iniciado en puerto ${PORT}`)
 })
-
-//TODO: Deploy en HEROKU
