@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { Schema, model } = require('mongoose')
+const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const usuarioSchema = new Schema({
 	id: String,
@@ -8,16 +8,16 @@ const usuarioSchema = new Schema({
 	nickname: String,
 	password: String,
 	email: String,
-	imagen: String,
-})
+	telefono: String,
+});
 
 usuarioSchema.set('toJSON', {
 	transform: (documento, returnedObject) => {
-		returnedObject.id = returnedObject._id
-		delete returnedObject._id
-		delete returnedObject.__v
+		returnedObject.id = returnedObject._id;
+		delete returnedObject._id;
+		delete returnedObject.__v;
 	},
-})
+});
 
-const Usuario = model('Usuario', usuarioSchema)
-module.exports = Usuario
+const Usuario = model('Usuario', usuarioSchema);
+module.exports = Usuario;
