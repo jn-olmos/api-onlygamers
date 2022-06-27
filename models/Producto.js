@@ -6,15 +6,17 @@ const productoSchema = new Schema({
 	nombre: String,
 	descripcion: String,
 	categoria: String,
-	precio: Number,
-	descuento: Boolean,
 	stock: Number,
 	stockMinimo: Number,
+	compra: Number,
+	iva: Number,
+	utilidad: Number,
+	venta: Number,
 });
 
 productoSchema.set('toJSON', {
 	transform: (documento, returnedObject) => {
-		returnedObject.id = returnedObject._id;
+		// returnedObject.id = returnedObject._id;
 		delete returnedObject._id;
 		delete returnedObject.__v;
 	},

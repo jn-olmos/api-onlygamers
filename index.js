@@ -70,13 +70,16 @@ app.post('/api/productos', (req, res, next) => {
 	}
 
 	const newProducto = new Producto({
+		id: producto.id,
 		nombre: producto.nombre,
 		descripcion: producto.descripcion,
 		categoria: producto.categoria,
-		precio: producto.precio,
-		descuento: producto.descuento,
 		stock: producto.stock,
 		stockMinimo: producto.stockMinimo,
+		compra: producto.compra,
+		iva: producto.iva,
+		utilidad: producto.utilidad,
+		venta: producto.venta,
 	});
 
 	newProducto
@@ -123,13 +126,16 @@ app.put('/api/productos/:id', (req, res, next) => {
 	if (!producto) return res.status(400).json({ error: 'No hay contenido en producto' });
 
 	const newProductoData = {
+		id: producto.id,
 		nombre: producto.nombre,
 		descripcion: producto.descripcion,
 		categoria: producto.categoria,
-		precio: producto.precio,
-		descuento: producto.descuento,
 		stock: producto.stock,
 		stockMinimo: producto.stockMinimo,
+		compra: producto.compra,
+		iva: producto.iva,
+		utilidad: producto.utilidad,
+		venta: producto.venta,
 	};
 
 	Producto.findByIdAndUpdate(id, newProductoData)
