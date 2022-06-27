@@ -66,6 +66,8 @@ app.post('/api/productos', (req, res, next) => {
 	const { nombre, descripcion, categoria, stock, stockMinimo, compra, iva, utilidad, venta } =
 		req.body;
 
+	console.log(req.body);
+
 	if (!req.body) {
 		return res.status(400).json({ error: 'No hay contenido en producto' });
 	}
@@ -213,7 +215,7 @@ app.use((error, req, res, next) => {
 
 //
 // Apertura
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3018;
 app.listen(PORT, () => {
 	console.log(`Server iniciado en puerto: ${PORT}`);
 });

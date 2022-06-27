@@ -16,7 +16,7 @@ const productoSchema = new Schema({
 
 productoSchema.set('toJSON', {
 	transform: (documento, returnedObject) => {
-		// returnedObject.id = returnedObject._id;
+		returnedObject.id = returnedObject._id;
 		delete returnedObject._id;
 		delete returnedObject.__v;
 	},
