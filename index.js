@@ -63,23 +63,23 @@ app.get('/api/usuarios/:id', (req, res, next) => {
 });
 
 app.post('/api/productos', (req, res, next) => {
-	const producto = req.body;
+	const { nombre, descripcion, categoria, stock, stockMinimo, compra, iva, utilidad, venta } =
+		req.body;
 
-	if (!producto) {
+	if (!req.body) {
 		return res.status(400).json({ error: 'No hay contenido en producto' });
 	}
 
 	const newProducto = new Producto({
-		id: producto.id,
-		nombre: producto.nombre,
-		descripcion: producto.descripcion,
-		categoria: producto.categoria,
-		stock: producto.stock,
-		stockMinimo: producto.stockMinimo,
-		compra: producto.compra,
-		iva: producto.iva,
-		utilidad: producto.utilidad,
-		venta: producto.venta,
+		nombre,
+		descripcion,
+		categoria,
+		stock,
+		stockMinimo,
+		compra,
+		iva,
+		utilidad,
+		venta,
 	});
 
 	newProducto
