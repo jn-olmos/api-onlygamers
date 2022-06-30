@@ -8,6 +8,8 @@ const path = require('path');
 
 const Producto = require('./models/Producto');
 const Usuario = require('./models/Usuario');
+const Factura = require('./models/Factura');
+const Venta = require('./models/Venta');
 
 app.use(cors());
 app.use(express.json());
@@ -23,8 +25,7 @@ app.get('/api', (req, res) => {
 	res.sendFile(path.join(__dirname, './public/templates/main.html'));
 });
 
-//
-// Http methods
+// MODULO DE PRODUCTOS
 
 app.get('/api/productos', (req, res) => {
 	Producto.find({}).then((productos) => {
@@ -65,8 +66,6 @@ app.get('/api/usuarios/:id', (req, res, next) => {
 app.post('/api/productos', (req, res, next) => {
 	const { nombre, descripcion, categoria, stock, stockMinimo, compra, iva, utilidad, venta } =
 		req.body;
-
-	console.log(req.body);
 
 	if (!req.body) {
 		return res.status(400).json({ error: 'No hay contenido en producto' });
@@ -199,6 +198,68 @@ app.delete('/api/usuarios/:id', (req, res, next) => {
 			next(error);
 		});
 });
+
+// MODULO DE VENTAS
+
+app.get('/api/facturas', (req, res) => {
+	Factura.find({}).then((facturas) => {
+		res.json(facturas);
+	});
+});
+
+app.post('/api/facturas', (req, res, next) => {
+	const { datosUsuario } = req.body;
+
+	console.log('\nresultado de req.body');
+	console.log(req.body);
+
+	if (!req.body) {
+		return res.status(400).json({ error: 'No hay contenido en factura' });
+	}
+
+	const newFactura = new Factura({
+		datosUsuario: datosUsuario,
+	});
+
+	console.log('\nresultado de newFactura');
+	console.log(newFactura);
+
+	newFactura
+		.save()
+		.then((savedFactura) => {
+			res.json(savedFactura);
+		})
+		.catch((error) => {
+			next(error);
+		});
+});
+
+// app.put('/api/usuarios/:id', (req, res, next) => {
+// 	const { id } = req.params;
+
+// 	const usuario = req.body;
+
+// 	if (!usuario) {
+// 		return res.status(400).json({ error: 'No hay contenido en usuario' });
+// 	}
+
+// 	const newUsuarioData = {
+// 		apellido: usuario.apellido,
+// 		nombre: usuario.nombre,
+// 		nickname: usuario.nickname,
+// 		password: usuario.password,
+// 		email: usuario.email,
+// 		telefono: usuario.telefono,
+// 	};
+
+// 	Usuario.findByIdAndUpdate(id, newUsuarioData)
+// 		.then(() => {
+// 			res.status(200).end();
+// 		})
+// 		.catch(() => {
+// 			next(error);
+// 		});
+// });
 
 //
 // Manejo de error
