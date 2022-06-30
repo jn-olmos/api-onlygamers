@@ -2,8 +2,8 @@ const { Schema, model } = require('mongoose');
 
 const facturaSchema = new Schema({
 	id: String,
-	datosProductos: Object,
-	datosUsuarios: Object,
+	datosProductos: Array,
+	datosCliente: Object,
 });
 
 facturaSchema.set('toJSON', {

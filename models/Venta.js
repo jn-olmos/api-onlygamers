@@ -3,8 +3,9 @@ const { Schema, model } = require('mongoose');
 const ventaSchema = new Schema({
 	id: String,
 	nombreProducto: String,
-	montoFactura: Number,
-	tipoDeBoleta: String,
+	nombreCliente: String,
+	subTotal: Number,
+	tipoFactura: String,
 	categoria: String,
 });
 

@@ -93,31 +93,31 @@ app.post('/api/productos', (req, res, next) => {
 		});
 });
 
-app.post('/api/usuarios', (req, res, next) => {
-	const usuario = req.body;
+// app.post('/api/usuarios', (req, res, next) => {
+// 	const usuario = req.body;
 
-	if (!usuario) {
-		return res.status(400).json({ error: 'No hay contenido en usuario' });
-	}
+// 	if (!usuario) {
+// 		return res.status(400).json({ error: 'No hay contenido en usuario' });
+// 	}
 
-	const newUsuario = new Usuario({
-		apellido: usuario.apellido,
-		nombre: usuario.nombre,
-		nickname: usuario.nickname,
-		password: usuario.password,
-		email: usuario.email,
-		telefono: usuario.telefono,
-	});
+// 	const newUsuario = new Usuario({
+// 		apellido: usuario.apellido,
+// 		nombre: usuario.nombre,
+// 		nickname: usuario.nickname,
+// 		password: usuario.password,
+// 		email: usuario.email,
+// 		telefono: usuario.telefono,
+// 	});
 
-	newUsuario
-		.save()
-		.then((savedUsuario) => {
-			res.json(savedUsuario);
-		})
-		.catch((error) => {
-			next(error);
-		});
-});
+// 	newUsuario
+// 		.save()
+// 		.then((savedUsuario) => {
+// 			res.json(savedUsuario);
+// 		})
+// 		.catch((error) => {
+// 			next(error);
+// 		});
+// });
 
 app.put('/api/productos/:id', (req, res, next) => {
 	const { id } = req.params;
@@ -199,7 +199,11 @@ app.delete('/api/usuarios/:id', (req, res, next) => {
 		});
 });
 
+//
+//
 // MODULO DE VENTAS
+
+// let resumenVenta = {};
 
 app.get('/api/facturas', (req, res) => {
 	Factura.find({}).then((facturas) => {
@@ -207,22 +211,23 @@ app.get('/api/facturas', (req, res) => {
 	});
 });
 
-app.post('/api/facturas', (req, res, next) => {
-	const { datosUsuario } = req.body;
+app.get('/api/ventas', (req, res) => {
+	Venta.find({}).then((ventas) => {
+		res.json(ventas);
+	});
+});
 
-	console.log('\nresultado de req.body');
-	console.log(req.body);
+app.post('/api/facturas', (req, res, next) => {
+	const { datosProductos, datosCliente } = req.body;
 
 	if (!req.body) {
 		return res.status(400).json({ error: 'No hay contenido en factura' });
 	}
 
 	const newFactura = new Factura({
-		datosUsuario: datosUsuario,
+		datosProductos,
+		datosCliente,
 	});
-
-	console.log('\nresultado de newFactura');
-	console.log(newFactura);
 
 	newFactura
 		.save()
@@ -234,32 +239,38 @@ app.post('/api/facturas', (req, res, next) => {
 		});
 });
 
-// app.put('/api/usuarios/:id', (req, res, next) => {
-// 	const { id } = req.params;
+// resumenVenta = {
+// 	nombreProducto: datosProducto.nombre,
+// 	nombreCliente: datosCliente.nombre,
+// 	subTotal: datosProducto.subTotal,
+// 	tipoFactura: datosCliente.tipoFactura,
+// 	categoria: datosProducto.categoria,
+// };
 
-// 	const usuario = req.body;
+// console.log(resumenVenta);
+app.post('/api/ventas', (req, res, next) => {
+	const { nombreProducto, nombreCliente, subTotal, tipoFactura, categoria } = resumenVenta;
+	// const { nombreProducto, nombreCliente, subTotal, tipoFactura, categoria } = req.body;
 
-// 	if (!usuario) {
-// 		return res.status(400).json({ error: 'No hay contenido en usuario' });
-// 	}
+	console.log('llego');
 
-// 	const newUsuarioData = {
-// 		apellido: usuario.apellido,
-// 		nombre: usuario.nombre,
-// 		nickname: usuario.nickname,
-// 		password: usuario.password,
-// 		email: usuario.email,
-// 		telefono: usuario.telefono,
-// 	};
+	const newVenta = new Venta({
+		nombreProducto,
+		nombreCliente,
+		subTotal,
+		tipoFactura,
+		categoria,
+	});
 
-// 	Usuario.findByIdAndUpdate(id, newUsuarioData)
-// 		.then(() => {
-// 			res.status(200).end();
-// 		})
-// 		.catch(() => {
-// 			next(error);
-// 		});
-// });
+	newVenta
+		.save()
+		.then((savedVenta) => {
+			res.json(savedVenta);
+		})
+		.catch((error) => {
+			next(error);
+		});
+});
 
 //
 // Manejo de error
